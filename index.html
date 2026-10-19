@@ -220,12 +220,12 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .articles__all { display: inline-flex; align-items: center; gap: .4rem; margin-top: 1.5rem; color: var(--gold-ink); font-weight: 600; text-decoration: none; }
 .articles__all:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-/* Sponsors ticker */
-.sponsors { padding-block: clamp(3rem, 6vw, 5rem); border-top: 1px solid var(--line); background: var(--surface); }
-.ticker { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+/* Sponsors ticker: white ground; every logo is contained (never cropped) in the same box */
+.sponsors { padding-block: clamp(3rem, 6vw, 5rem); background: #fff; border-top: 1px solid var(--line); }
+.ticker { overflow: hidden; }
 .ticker__track { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; width: max-content; }
-.ticker__track li { flex: none; padding-inline-end: clamp(2rem, 5vw, 4rem); }  /* spacing as padding so -50% loops seamlessly */
-.ticker__track img { height: clamp(56px, 7vw, 80px); width: auto; object-fit: contain; }
+.ticker__track li { flex: none; display: grid; place-items: center; width: clamp(140px, 16vw, 200px); height: clamp(70px, 8vw, 100px); margin-inline-end: clamp(1.5rem, 4vw, 3.5rem); }  /* spacing as margin so -50% loops seamlessly */
+.ticker__track img { width: 100%; height: 100%; object-fit: contain; }
 
 /* Footer */
 .site-foot { background: var(--charcoal); color: rgb(247 244 234 / .75); padding-block: 2.5rem; font-size: .9rem; }
@@ -342,7 +342,25 @@ body.is-locked { overflow: hidden; }
       </div>
     </section>
 
-    <!-- 2. Intro (live copy, unchanged) -->
+    <!-- 2. CEO piece (moved directly after the hero) -->
+    <section class="ceo" aria-labelledby="ceo-title">
+      <div class="wrap ceo__grid">
+        <figure class="ceo__portrait">
+          <img src="https://cdn.dailymaverick.co.za/attachments/2999/RaviPortrait_415683.jpg" alt="Ravi Naidoo" width="800" height="1000" loading="lazy">
+          <figcaption>Ravi Naidoo, YES CEO</figcaption>
+        </figure>
+        <div class="ceo__copy">
+          <h2 id="ceo-title" class="ceo__title">Youth employment belongs in the growth conversation</h2>
+          <div class="ceo__body">
+            <p>YES CEO, <strong>Ravi Naidoo</strong>, highlights the need to view youth employment as a key driver of economic growth rather than solely a social responsibility initiative. Structured workplace experience enables young people to gain practical skills, business knowledge, and industry exposure that strengthen productivity, innovation, and long-term economic competitiveness.</p>
+            <p>Against the backdrop of high youth unemployment and the rapid evolution of AI, Naidoo advocates for policies and partnerships that expand work opportunities for young people, support business-led job creation, and maximise the return on South Africa’s investment in education. He emphasises that integrating more young people into the economy is essential to unlocking sustainable growth and shared prosperity.</p>
+          </div>
+          <!-- TODO: link to the full piece if it has its own URL. -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Intro (live copy) -->
     <section class="intro" aria-labelledby="intro-title">
       <div class="wrap intro__grid">
         <p class="intro__figure" aria-hidden="true">200,000</p>
@@ -354,7 +372,7 @@ body.is-locked { overflow: hidden; }
       </div>
     </section>
 
-    <!-- 3. Top 35 -->
+    <!-- 4. Top 35 -->
     <section class="profiles" id="top35" aria-labelledby="profiles-title">
       <div class="wrap">
         <h2 id="profiles-title" class="section-title">Meet the YES Top 35 Impact-Makers Under 35</h2>
@@ -378,30 +396,12 @@ body.is-locked { overflow: hidden; }
       </div>
     </section>
 
-    <!-- 4. Videos (keeps #ytplaylist). Built from the sheet's "YouTube" column; see CONFIG in app.js. -->
+    <!-- 5. Videos (keeps #ytplaylist). Built from the sheet's "YouTube" column; see CONFIG in app.js. -->
     <section class="videos" id="ytplaylist" aria-labelledby="videos-title">
       <div class="wrap">
         <h2 id="videos-title" class="section-title">View the YES Top 35 Under 35 videos</h2>
       </div>
       <div class="videos__rail" id="videos" role="list"></div>
-    </section>
-
-    <!-- 5. CEO piece -->
-    <section class="ceo" aria-labelledby="ceo-title">
-      <div class="wrap ceo__grid">
-        <figure class="ceo__portrait">
-          <img src="https://cdn.dailymaverick.co.za/attachments/2999/RaviPortrait_415683.jpg" alt="Ravi Naidoo" width="800" height="1000" loading="lazy">
-          <figcaption>Ravi Naidoo, YES CEO</figcaption>
-        </figure>
-        <div class="ceo__copy">
-          <h2 id="ceo-title" class="ceo__title">Youth employment belongs in the growth conversation</h2>
-          <div class="ceo__body">
-            <p>YES CEO, <strong>Ravi Naidoo</strong>, highlights the need to view youth employment as a key driver of economic growth rather than solely a social responsibility initiative. Structured workplace experience enables young people to gain practical skills, business knowledge, and industry exposure that strengthen productivity, innovation, and long-term economic competitiveness.</p>
-            <p>Against the backdrop of high youth unemployment and the rapid evolution of AI, Naidoo advocates for policies and partnerships that expand work opportunities for young people, support business-led job creation, and maximise the return on South Africa’s investment in education. He emphasises that integrating more young people into the economy is essential to unlocking sustainable growth and shared prosperity.</p>
-          </div>
-          <!-- TODO: link to the full piece if it has its own URL. -->
-        </div>
-      </div>
     </section>
 
     <!-- 6. Sponsored articles: latest four from the YES author page on Daily Maverick -->
@@ -428,26 +428,27 @@ body.is-locked { overflow: hidden; }
       </div>
     </section>
 
-    <!-- 7. Sponsors ticker (keeps #sponsors). Logos as supplied; the list is duplicated in JS for a seamless loop. -->
+    <!-- 7. Sponsors ticker (keeps #sponsors). Original logo files (the 200x100/smart versions crop non-2:1 logos),
+         each fitted whole inside the same box. The list is duplicated in JS for a seamless loop. -->
     <section class="sponsors" id="sponsors" aria-labelledby="sponsors-title">
       <div class="wrap">
         <h2 id="sponsors-title" class="section-title section-title--sm">Sponsored by</h2>
       </div>
       <div class="ticker" id="ticker">
         <ul class="ticker__track" role="list">
-          <li><img src="https://cdn.dailymaverick.co.za/i/0R1gICtxBdlYe_mMJ0PRn1DiEV4=/200x100/smart/filters:strip_exif()/file/attachments/2999/ByDesignLogo_133378.png" alt="ByDesign" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/8eE2xBQ0RkbIpYu54IMocpPIHZE=/200x100/smart/filters:strip_exif()/file/attachments/2999/FamousBrandslogo_972691.png" alt="Famous Brands" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/WVXvo6i-n_UbmUG5LnX1NnkXOQE=/200x100/smart/filters:strip_exif()/file/attachments/2999/CityLodgelogo_546224.png" alt="City Lodge" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/hmme7OdrN0c6WI5SQairj1khBbs=/200x100/smart/filters:strip_exif()/file/attachments/2999/Airlinklogo_279501.png" alt="Airlink" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/hkAb9pS2C9v2Fi0ig1NYa4Xtu3U=/200x100/smart/filters:strip_exif()/file/attachments/2999/Epiroclogo-blue_534673.png" alt="Epiroc" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/PyeaJ_ZtD7YCPbJRtFmNzJUAyL8=/200x100/smart/filters:strip_exif()/file/attachments/2999/Firstrandlogo_601253.png" alt="FirstRand" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/IDZ_xYGYcC5VdBwP01s4mCJMgvI=/200x100/smart/filters:strip_exif()/file/attachments/2999/Unileverlogo_499619.png" alt="Unilever" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/cLHSiOSB_uGaGJn9OEnSMT7zTuE=/200x100/smart/filters:strip_exif()/file/attachments/2999/TFG_859586.png" alt="TFG" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/OTcBStGiyqYUvtWNGTbb_y5m4xs=/200x100/smart/filters:strip_exif()/file/attachments/2999/Sanofilogo_818067.png" alt="Sanofi" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/rwfNXvxHJD38kRBvmUeECa20DDs=/200x100/smart/filters:strip_exif()/file/attachments/2999/MBSAlogo_301579.jpg" alt="Mercedes-Benz South Africa" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/H5FPpL1kgqfM1yzw4KnqeD0LHeI=/200x100/smart/filters:strip_exif()/file/attachments/2999/Nedbanklogo_802738.png" alt="Nedbank" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/Ol2rthLGA5j0UNf93gKYHLq8GDQ=/200x100/smart/filters:strip_exif()/file/attachments/2999/Nomialogo_914437.png" alt="Nomia Pictures" width="200" height="100"></li>
-          <li><img src="https://cdn.dailymaverick.co.za/i/Os2wpUvCiAp3q6Fw52Kl1f3afpg=/200x100/smart/filters:strip_exif()/file/attachments/2999/Sanlamlogo_933486.png" alt="Sanlam" width="200" height="100"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/ByDesignLogo_133378.png" alt="ByDesign" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/FamousBrandslogo_972691.png" alt="Famous Brands" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/CityLodgelogo_546224.png" alt="City Lodge" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/Airlinklogo_279501.png" alt="Airlink" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/Epiroclogo-blue_534673.png" alt="Epiroc" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/Firstrandlogo_601253.png" alt="FirstRand" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/Unileverlogo_499619.png" alt="Unilever" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/TFG_859586.png" alt="TFG" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/Sanofilogo_818067.png" alt="Sanofi" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/MBSAlogo_301579.jpg" alt="Mercedes-Benz South Africa" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/Nedbanklogo_802738.png" alt="Nedbank" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/Nomialogo_914437.png" alt="Nomia Pictures" loading="lazy" decoding="async"></li>
+          <li><img src="https://cdn.dailymaverick.co.za/attachments/2999/Sanlamlogo_933486.png" alt="Sanlam" loading="lazy" decoding="async"></li>
         </ul>
       </div>
     </section>
