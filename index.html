@@ -49,7 +49,8 @@
   box-sizing: border-box;
 }
 
-.yes26, .yes26 *, .yes26 *::before, .yes26 *::after { box-sizing: inherit; }
+/* Set explicitly (not inherited) so the host page's box-sizing can never leak in. */
+.yes26, .yes26 *, .yes26 *::before, .yes26 *::after { box-sizing: border-box !important; }
 
 .yes26 { margin: 0; overflow-x: clip; background: var(--bg); color: var(--ink); font: 400 1rem/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
 .yes26 img { display: block; max-width: 100%; }
@@ -159,7 +160,16 @@
 .yes26 .ceo__grid { display: grid; gap: clamp(1.75rem, 5vw, 4.5rem); align-items: center; }
 @media (min-width: 860px) { .yes26 .ceo__grid { grid-template-columns: 4fr 7fr; } }
 .yes26 .ceo__portrait { margin: 0; display: grid; gap: .75rem; max-width: 420px; }
-.yes26 .ceo__portrait img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; box-shadow: 14px 14px 0 var(--gold); }
+/* Portrait + gold "shadow" block. On hover (or tap, via JS) the photo tilts one way and the block the other. */
+.yes26 .ceo__frame { position: relative; display: block; isolation: isolate; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.yes26 .ceo__frame::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--gold); transform: translate(14px, 14px); transition: transform .7s var(--ease); }
+.yes26 .ceo__portrait img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; transform-origin: 50% 60%; transition: transform .7s var(--ease); }
+@media (hover: hover) {
+  .yes26 .ceo__frame:hover img { transform: rotate(-3deg); }
+  .yes26 .ceo__frame:hover::before { transform: translate(14px, 14px) rotate(4deg); }
+}
+.yes26 .ceo__frame.is-tilted img { transform: rotate(-3deg); }
+.yes26 .ceo__frame.is-tilted::before { transform: translate(14px, 14px) rotate(4deg); }
 .yes26 .ceo__portrait figcaption { font-size: .85rem; color: var(--muted); margin-top: .6rem; }
 .yes26 .ceo__title { margin: 0 0 1.5rem; font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.08; letter-spacing: -.02em; max-width: 18ch; }
 .yes26 .ceo__body { font-family: var(--serif); font-size: clamp(1.08rem, 1.5vw, 1.25rem); line-height: 1.6; max-width: 60ch; }
@@ -320,7 +330,7 @@
     <section class="ceo" aria-labelledby="yes26-ceo-title">
       <div class="wrap ceo__grid">
         <figure class="ceo__portrait">
-          <img src="https://cdn.dailymaverick.co.za/attachments/2999/RaviPortrait_415683.jpg" alt="Ravi Naidoo" width="800" height="1000" loading="lazy">
+          <span class="ceo__frame"><img src="https://cdn.dailymaverick.co.za/attachments/2999/RaviPortrait_415683.jpg" alt="Ravi Naidoo" width="800" height="1000" loading="lazy"></span>
           <figcaption>Ravi Naidoo, YES CEO</figcaption>
         </figure>
         <div class="ceo__copy">
@@ -368,19 +378,19 @@
           <li class="article article--lead"><a href="https://www.dailymaverick.co.za/article/2026-10-20-what-came-next-for-the-2025-yes-top-35-under-35/">
             <span class="article__media"><img src="https://cdn.dailymaverick.co.za/attachments/2999/Top352025image_785750_676322.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async"></span>
             <span class="article__text">
-              <span class="article__meta"><time datetime="2026-10-20">20 October 2026</time> · 3 min read</span>
+              <span class="article__meta"><time datetime="2026-10-20">20 October 2026</time></span>
               <span class="article__title">What came next for the 2025 YES Top 35 Under 35</span>
               <span class="article__dek">A year after the 2025 YES Top 35 Under 35, alumni are advancing careers, growing businesses, pursuing study and creating opportunities for others.</span>
               <span class="article__more">Read on Daily Maverick <i class="ph ph-arrow-up-right" aria-hidden="true"></i></span>
             </span></a></li>
           <li class="article"><a href="https://www.dailymaverick.co.za/article/2026-10-19-unilever-empowers-south-africas-youth-through-innovative-employment-initiatives-in-collaboration-with-yes/">
-            <span class="article__meta"><time datetime="2026-10-19">19 October 2026</time> · 2 min read</span>
+            <span class="article__meta"><time datetime="2026-10-19">19 October 2026</time></span>
             <span class="article__title">Unilever empowers South Africa’s youth through innovative employment initiatives in collaboration with YES</span></a></li>
           <li class="article"><a href="https://www.dailymaverick.co.za/article/2026-10-16-motus-and-yes-mark-six-years-of-driving-youth-employment-across-south-africas-automotive/">
-            <span class="article__meta"><time datetime="2026-10-16">16 October 2026</time> · 2 min read</span>
+            <span class="article__meta"><time datetime="2026-10-16">16 October 2026</time></span>
             <span class="article__title">Motus and YES mark six years of driving youth employment across South Africa’s automotive</span></a></li>
           <li class="article"><a href="https://www.dailymaverick.co.za/article/2026-10-15-the-skills-that-will-define-tomorrows-workforce/">
-            <span class="article__meta"><time datetime="2026-10-15">15 October 2026</time> · 3 min read</span>
+            <span class="article__meta"><time datetime="2026-10-15">15 October 2026</time></span>
             <span class="article__title">The skills that will define tomorrow’s workforce</span></a></li>
         </ul>
         <a class="articles__all" href="https://www.dailymaverick.co.za/author/youth-employment-service/">All YES articles on Daily Maverick <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
@@ -1009,7 +1019,7 @@ window.YES_PROFILES_SNAPSHOT = [
         const target = ROOT.querySelector(link.getAttribute("href"));
         if (target) {
           e.preventDefault();
-          const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          const reduce = !!window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
           target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
           history.replaceState(null, "", link.getAttribute("href"));
           if (link.classList.contains("skip")) target.querySelector("h2, h1")?.setAttribute("tabindex", "-1"), target.querySelector("h2, h1")?.focus({ preventScroll: true });
@@ -1071,9 +1081,17 @@ window.YES_PROFILES_SNAPSHOT = [
     track.dataset.ready = "1";
   }
 
+  // Ravi's portrait: tap toggles the tilt on touch screens (hover handles it on desktop).
+  function initPortraitTilt() {
+    const frame = $(".ceo__frame");
+    if (!frame || window.matchMedia?.("(hover: hover)")?.matches) return;
+    frame.addEventListener("click", () => frame.classList.toggle("is-tilted"));
+  }
+
   /* ---------- boot ---------- */
   async function init() {
     initTicker();
+    initPortraitTilt();
     renderSkeleton();
     bind();
     state.all = await load();
